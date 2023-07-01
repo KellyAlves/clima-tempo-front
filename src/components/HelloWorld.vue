@@ -68,7 +68,7 @@
     </div>
     <div v-else>
       <div class="q-pa-md">
-        <div class="row justify-center" style="">
+        <div class="row justify-center" >
           <div
             class="col-3 q-ma-sm"
             v-for="(forecast, index) in weatherForecasts"
@@ -78,7 +78,7 @@
               <q-card-section
                 style="
                   text-align: left;
-                  background-color: rgba(169, 169, 169, 0.459);
+                  background-color: rgba(169, 169, 169, 0.459)
                 "
               >
                 <div style="font-size: medium">{{ forecast.date }}</div>
@@ -87,7 +87,7 @@
 
               <q-card-section>
                 <div style="display: flex; justify-content: space-around">
-                  <div class="div-style" style="color: rgb(27, 127, 160);">
+                  <div class="div-style" style="color: rgb(27, 127, 160)">
                     <q-img
                       :src="download"
                       spinner-color="white"
@@ -95,7 +95,7 @@
                     />
                     {{ forecast.temperature.min }}°C
                   </div>
-                  <div class="div-style" style="color: rgb(160, 41, 41);">
+                  <div class="div-style" style="color: rgb(160, 41, 41)">
                     <q-img
                       :src="upload"
                       spinner-color="white"
@@ -127,8 +127,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import { ref } from "vue";
+import axios from "axios"
+import { ref } from "vue"
 import download from '../assets/images/icons/download.png'
 import protectionSymbol from '../assets/images/icons/protectionSymbol.png'
 import raindrop from '../assets/images/icons/raindrop.png'
@@ -152,7 +152,7 @@ export default {
       filteredLocalities: [],
       selectedLocale: "",
       weatherForecasts: {},
-      weatherForecastsCheck: {},
+      weatherForecastsCheck: {}
     };
   },
 
@@ -221,49 +221,47 @@ export default {
     async searchWeather() {
       try {
         this.loading = true;
-        this.showSearchDiv = false;
-        console.log("select ", this.selectedLocale);
+        this.showSearchDiv = false
         const { data } = await axios.get(
-          `http://localhost:3030/forecasts/${this.selectedLocale}`
-        );
-        const apiData = data;
-        this.weatherForecasts = Object.freeze(apiData);
+          `http://localhost:3030/weather/${this.selectedLocale}`
+        )
+        const apiData = data
+        this.weatherForecasts = Object.freeze(apiData)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       } finally {
-        this.loading = false;
+        this.loading = false
       }
     },
 
     filterLocalities() {
       if (this.locale.length > 2) {
         this.filteredLocalities = this.localesData.filter((locale) => {
-          const normalizedLocale = this.normalizeText(locale.name);
-          const normalizedSelectedLocale = this.normalizeText(this.locale);
-          return normalizedLocale.includes(normalizedSelectedLocale);
-        });
+          const normalizedLocale = this.normalizeText(locale.name)
+          const normalizedSelectedLocale = this.normalizeText(this.locale)
+          return normalizedLocale.includes(normalizedSelectedLocale)
+        })
       } else {
-        this.filteredLocalities = [];
+        this.filteredLocalities = []
       }
     },
     selectLocality(locality) {
-      this.selectedLocale = locality.id;
-      this.locale = locality.name + " - " + locality.state;
-      this.filteredLocalities = [];
-      this.showSearchDiv = true;
+      this.selectedLocale = locality.id
+      this.locale = locality.name + " - " + locality.state
+      this.filteredLocalities = []
+      this.showSearchDiv = true
     },
 
     normalizeText(text) {
       return text
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase();
+        .toLowerCase()
     },
   },
-};
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
@@ -279,13 +277,8 @@ li {
 a {
   color: #42b983;
 }
-.q-field.error .q-field__native {
-  border-color: red;
-}
 
-.q-field.error .q-field__bottom-row {
-  color: red;
-}
+
 .q-row {
   margin-top: 30px;
   gap: 10px;
